@@ -17,8 +17,7 @@ public class OwnershipTransferTest : MonoBehaviour
 
     private void OnSelectObj()
     {
-        Debug.Log("Test");
-        if (Selection.activeGameObject == this)
+        if (Selection.activeGameObject == this.gameObject)
         {
             pView.TransferOwnership(PhotonNetwork.LocalPlayer);
         }

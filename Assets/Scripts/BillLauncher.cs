@@ -8,6 +8,10 @@ public sealed class BillLauncher : MonoBehaviour
     [Tooltip("The view that controls this launcher.")]
     [SerializeField] private PhotonView photonView = null;
 
+    [Tooltip("Transform that the network player will be instantiated at.")]
+    [SerializeField] private Transform playerSpawnTransform;
+    public Vector3 playerSpawnPosition { get; private set; }
+
     [Tooltip("The name of the bullet bill prefab.")]
     [SerializeField] private string billPrefabName = string.Empty;
 
@@ -50,24 +54,25 @@ public sealed class BillLauncher : MonoBehaviour
     private void Start()
     {
         lastShootTime = Time.time - firingCooldown;
+        playerSpawnPosition = playerSpawnTransform.position;
     }
 
-    private void FixedUpdate()
-    {
-        // Don't process input events if we aren't the owner.
-        if (!photonView.IsMine) return;
+    //private void FixedUpdate()
+    //{
+    //    // Don't process input events if we aren't the owner.
+    //    if (!photonView.IsMine) return;
 
-        if (Time.time - lastShootTime > firingCooldown &&
-            Input.GetKeyDown(KeyCode.Space))
-        {
-            // Reset cooldown time.
-            lastShootTime = Time.time;
-            // Create the bill.
-            GameObject newBill = PhotonNetwork.Instantiate(billPrefabName,
-                billSpawnLocation.position,
-                billSpawnLocation.rotation);
-            newBill.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        }
-    }
+    //    if (Time.time - lastShootTime > firingCooldown &&
+    //        Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        // Reset cooldown time.
+    //        lastShootTime = Time.time;
+    //        // Create the bill.
+    //        GameObject newBill = PhotonNetwork.Instantiate(billPrefabName,
+    //            billSpawnLocation.position,
+    //            billSpawnLocation.rotation);
+    //        newBill.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    //    }
+    //}
 
 }
