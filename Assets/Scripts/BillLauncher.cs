@@ -15,13 +15,28 @@ public sealed class BillLauncher : MonoBehaviour
     [Tooltip("The position that the bullet bill will be spawned in.")]
     [SerializeField] private Transform billSpawnLocation = null;
 
-
     [Tooltip("The cooldown period after shooting a bill.")]
     [SerializeField][Min(0.0F)] private float firingCooldown = 1.0F;
-    [Tooltip("The number of hits the launcher can take.")]
-    [SerializeField][Min(1)] private int launcherHitpoints = 1;
+
+
 
     [SerializeField] private AnimationCurve accelerationCurve = null;
+
+    public void SetPhotonView(PhotonView photonView)
+    {
+
+        if (photonView is null)
+            RemovePhotonView();
+        else
+        {
+            this.photonView = photonView;
+        }
+
+    }
+    public void RemovePhotonView()
+    {
+        photonView = null;
+    }
 
 
     public bool IsBulletInVulnerableZone(Vector3 direction)
@@ -29,6 +44,7 @@ public sealed class BillLauncher : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
+    private int launcherHitpointsLeft;
     private float lastShootTime;
 
     private void Start()
